@@ -1,5 +1,5 @@
 {
-  "name": "console-warrior",
+  "name": "console-filename",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lohfu/console-warrior.git"
+    "url": "git+https://github.com/lohfu/console-filename.git"
   },
   "author": "Linus Miller <lohfu@lohfu.io> (https://lohfu.io/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lohfu/console-warrior/issues"
+    "url": "https://github.com/lohfu/console-filename/issues"
   },
-  "homepage": "https://github.com/lohfu/console-warrior#readme",
+  "homepage": "https://github.com/lohfu/console-filename#readme",
   "dependencies": {
     "chalk": "^1.1.3"
   }

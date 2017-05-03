@@ -4,14 +4,13 @@
 
 const chalk = require('chalk');
 
-console.originalLog = console.log;
-console.originalDir = console.dir;
+console.__log = console.log;
+console.__dir = console.dir;
 
 function extractLocation() {
   const obj = {};
   Error.captureStackTrace(obj);
   const str = obj.stack.split(/\n\s*/)[3];
-
   const cwd = process.cwd();
 
   if (str.includes(cwd)) {
@@ -24,14 +23,16 @@ function extractLocation() {
 console.log = function (...args) {
   const location = extractLocation();
 
-  if (!location.includes('node_modules')) console.originalLog(chalk.grey(location));
+  if (!location.includes('node_modules')) {
+    console.__log(chalk.grey(location));
+  }
 
-  console.originalLog(...args);
+  console.__log(...args);
 };
 
 console.dir = function (obj, options) {
-  console.originalLog(chalk.grey(extractLocation()));
-  this.originalDir(obj, Object.assign({
+  console.__log(chalk.grey(extractLocation()));
+  console.__dir(obj, Object.assign({
     colors: true,
   }, options));
 };
