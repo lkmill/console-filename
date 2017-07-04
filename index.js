@@ -2,10 +2,8 @@
 
 'use strict';
 
+const colorizeStack = require('colorize-stack')
 const chalk = require('chalk');
-
-console.__log = console.log;
-console.__dir = console.dir;
 
 function extractLocation() {
   const obj = {};
@@ -20,19 +18,24 @@ function extractLocation() {
   return str.slice(str.indexOf('(') + 1, -1);
 }
 
-console.log = function (...args) {
-  const location = extractLocation();
+module.exports = (obj = console) => {
+  obj.__log = obj.log;
+  obj.__dir = obj.dir;
 
-  if (!location.includes('node_modules')) {
-    console.__log(chalk.grey(location));
-  }
+  obj.log = function (...args) {
+    const location = extractLocation();
 
-  console.__log(...args);
-};
+    if (!location.includes('node_modules')) {
+      console.__log(chalk.grey(location));
+    }
 
-console.dir = function (obj, options) {
-  console.__log(chalk.grey(extractLocation()));
-  console.__dir(obj, Object.assign({
-    colors: true,
-  }, options));
-};
+    console.__log(...args);
+  };
+
+  obj.dir = function (obj, options) {
+    console.__log(chalk.grey(extractLocation()));
+    console.__dir(obj, Object.assign({
+      colors: true,
+    }, options));
+  };
+}
