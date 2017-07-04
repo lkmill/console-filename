@@ -18,33 +18,41 @@ function extractLocation() {
   return str.slice(str.indexOf('(') + 1, -1);
 }
 
-module.exports = (obj = console) => {
-  obj.__log = obj.log;
-  obj.__dir = obj.dir;
-  obj.__error = obj.error;
+module.exports = ({ obj = console, log, dir, error }) => {
+  if (log) {
+    obj.__log = obj.log;
 
-  obj.log = function (...args) {
-    const location = extractLocation();
+    obj.log = function (...args) {
+      const location = extractLocation();
 
-    if (!location.includes('node_modules')) {
-      console.__log(chalk.grey(location));
-    }
+      if (!location.includes('node_modules')) {
+        console.__log(chalk.grey(location));
+      }
 
-    console.__log(...args);
-  };
+      console.__log(...args);
+    };
+  }
 
-  obj.dir = function (obj, options) {
-    console.__log(chalk.grey(extractLocation()));
-    console.__dir(obj, Object.assign({
-      colors: true,
-    }, options));
-  };
+  if (dir) {
+    obj.__dir = obj.dir;
 
-  obj.error = function (err, ...args) {
-    if (err.stack) {
-      console.__error(colorizeStack(err.stack))
-    } else {
-      console.__error(err, ...args)
+    obj.dir = function (obj, options) {
+      console.__log(chalk.grey(extractLocation()));
+      console.__dir(obj, Object.assign({
+        colors: true,
+      }, options));
+    };
+  }
+
+  if (error) {
+    obj.__error = obj.error;
+
+    obj.error = function (err, ...args) {
+      if (err.stack) {
+        console.__error(colorizeStack(err.stack))
+      } else {
+        console.__error(err, ...args)
+      }
     }
   }
 }
