@@ -21,6 +21,7 @@ function extractLocation() {
 module.exports = (obj = console) => {
   obj.__log = obj.log;
   obj.__dir = obj.dir;
+  obj.__error = obj.error;
 
   obj.log = function (...args) {
     const location = extractLocation();
@@ -38,4 +39,12 @@ module.exports = (obj = console) => {
       colors: true,
     }, options));
   };
+
+  obj.error = function (err, ...args) {
+    if (err.stack) {
+      console.__error(colorizeStack(err.stack))
+    } else {
+      console.__error(err, ...args)
+    }
+  }
 }
