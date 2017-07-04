@@ -18,7 +18,7 @@ function extractLocation() {
   return str.slice(str.indexOf('(') + 1, -1);
 }
 
-module.exports = ({ obj = console, log, dir, error }) => {
+module.exports = ({ obj = console, log, dir, error } = {}) => {
   if (log) {
     obj.__log = obj.log;
 
