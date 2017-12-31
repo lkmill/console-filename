@@ -1,5 +1,5 @@
 {
-  "name": "console-filename",
+  "name": "@bmp/console",
   "version": "0.0.3",
   "description": "",
   "main": "index.js",
