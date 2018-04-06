@@ -2,7 +2,7 @@
 
 'use strict'
 
-const colorizeStack = require('colorize-stack')
+const highlightStack = require('@bmp/highlight-stack')
 const chalk = require('chalk')
 
 function extractLocation () {
@@ -49,7 +49,7 @@ module.exports = ({ obj = console, log, dir, error } = {}) => {
 
     obj.error = function (err, ...args) {
       if (err.stack) {
-        console.__error(colorizeStack(err.stack))
+        console.__error(highlightStack(err.stack))
       } else {
         console.__error(err, ...args)
       }
